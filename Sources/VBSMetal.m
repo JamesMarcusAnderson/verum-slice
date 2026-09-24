@@ -8,7 +8,7 @@ static NSString *quantPrelude(void) { return
 @"#include <metal_stdlib>\nusing namespace metal;\n"
 @"struct q40{half d;uchar q[16];};struct q41{half d;half m;uchar q[16];};"
 @"struct q50{half d;uchar h[4];uchar q[16];};struct q51{half d;half m;uchar h[4];uchar q[16];};"
-@"struct q80{half d;char q[32];};struct q81{half d;half s;char q[32];};"
+@"struct q80{half d;char q[32];};struct q81{float d;float s;char q[32];};"
 @"struct q2k{uchar s[16];uchar q[64];half d;half dm;};struct q3k{uchar h[32];uchar q[64];uchar s[12];half d;};"
 @"struct q4k{half d;half dm;uchar s[12];uchar q[128];};struct q5k{half d;half dm;uchar s[12];uchar h[32];uchar q[128];};"
 @"struct q6k{uchar ql[128];uchar qh[64];char s[16];half d;};struct q8k{float d;char q[256];short sums[16];};\n"
@@ -24,7 +24,7 @@ static NSString *decoder(VBSGGMLType t, uint32_t *block, NSString **structName) 
         case VBSGGMLTypeQ5_0:*block=32;*structName=@"q50";return @"uint p=i&15,l=i<16?(b.q[p]&15):(b.q[p]>>4),h=(uint(b.h[i>>3])>>(i&7))&1;return float(b.d)*float(int(l|(h<<4))-16);";
         case VBSGGMLTypeQ5_1:*block=32;*structName=@"q51";return @"uint p=i&15,l=i<16?(b.q[p]&15):(b.q[p]>>4),h=(uint(b.h[i>>3])>>(i&7))&1;return float(b.d)*float(l|(h<<4))+float(b.m);";
         case VBSGGMLTypeQ8_0:*block=32;*structName=@"q80";return @"return float(b.d)*float(b.q[i]);";
-        case VBSGGMLTypeQ8_1:*block=32;*structName=@"q81";return @"return float(b.d)*float(b.q[i]);";
+        case VBSGGMLTypeQ8_1:*block=32;*structName=@"q81";return @"return b.d*float(b.q[i])+b.s;";
         case VBSGGMLTypeQ2_K:*block=256;*structName=@"q2k";return @"uint h=i>>7,w=i&127,p=w>>5,l=w&31,si=h*8+p*2+(l>>4),q=(uint(b.q[h*32+l])>>(2*p))&3,ps=b.s[si];return float(b.d)*float(ps&15)*float(q)-float(b.dm)*float(ps>>4);";
         case VBSGGMLTypeQ3_K:*block=256;*structName=@"q3k";return @"uint h=i>>7,w=i&127,p=w>>5,l=w&31,si=h*8+p*2+(l>>4),mask=1u<<(p+4*h);int q=int((uint(b.q[h*32+l])>>(2*p))&3)-((uint(b.h[l])&mask)?0:4);return float(b.d)*float(s3(b.s,si)-32)*float(q);";
         case VBSGGMLTypeQ4_K:*block=256;*structName=@"q4k";return @"uint g=i>>5,l=i&31;uint2 x=sm(b.s,g);uint q=(uint(b.q[(g>>1)*32+l])>>((g&1)*4))&15;return float(b.d)*float(x.x)*float(q)-float(b.dm)*float(x.y);";
