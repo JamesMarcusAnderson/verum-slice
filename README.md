@@ -1,4 +1,6 @@
-# Verum Slice Native
+# Verum Bespoke Singularity
+
+*The name Verum Bespoke Singularity was coined by DeepSeek during the project's early design conversations.*
 
 ![macOS](https://img.shields.io/badge/platform-macOS-8e8e93)
 ![Objective-C](https://img.shields.io/badge/language-Objective--C-438eff)
