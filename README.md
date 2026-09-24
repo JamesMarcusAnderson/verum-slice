@@ -1,5 +1,10 @@
 # Verum Slice Native
 
+![macOS](https://img.shields.io/badge/platform-macOS-8e8e93)
+![Objective-C](https://img.shields.io/badge/language-Objective--C-438eff)
+![Metal](https://img.shields.io/badge/GPU-Metal-ff9f0a)
+![License: MIT](https://img.shields.io/badge/license-MIT-34c759)
+
 This tree is a clean restart from the uploaded prototype.  It intentionally has
 no model-family switch and no fixed transformer layer struct.
 
